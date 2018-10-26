@@ -32,6 +32,171 @@ func initService(service *goa.Service) {
 	service.Decoder.Register(goa.NewJSONDecoder, "*/*")
 }
 
+// BookController is the controller interface for the Book actions.
+type BookController interface {
+	goa.Muxer
+	Create(*CreateBookContext) error
+	Delete(*DeleteBookContext) error
+	List(*ListBookContext) error
+	Show(*ShowBookContext) error
+	Update(*UpdateBookContext) error
+}
+
+// MountBookController "mounts" a Book resource controller on the given service.
+func MountBookController(service *goa.Service, ctrl BookController) {
+	initService(service)
+	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/books", ctrl.MuxHandler("preflight", handleBookOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/books/:name", ctrl.MuxHandler("preflight", handleBookOrigin(cors.HandlePreflight()), nil))
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewCreateBookContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*BookPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
+		return ctrl.Create(rctx)
+	}
+	h = handleBookOrigin(h)
+	service.Mux.Handle("POST", "/books", ctrl.MuxHandler("create", h, unmarshalCreateBookPayload))
+	service.LogInfo("mount", "ctrl", "Book", "action", "Create", "route", "POST /books")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewDeleteBookContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.Delete(rctx)
+	}
+	h = handleBookOrigin(h)
+	service.Mux.Handle("DELETE", "/books/:name", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "Book", "action", "Delete", "route", "DELETE /books/:name")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewListBookContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.List(rctx)
+	}
+	h = handleBookOrigin(h)
+	service.Mux.Handle("GET", "/books", ctrl.MuxHandler("list", h, nil))
+	service.LogInfo("mount", "ctrl", "Book", "action", "List", "route", "GET /books")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewShowBookContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.Show(rctx)
+	}
+	h = handleBookOrigin(h)
+	service.Mux.Handle("GET", "/books/:name", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "Book", "action", "Show", "route", "GET /books/:name")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewUpdateBookContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*BookPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
+		return ctrl.Update(rctx)
+	}
+	h = handleBookOrigin(h)
+	service.Mux.Handle("PUT", "/books/:name", ctrl.MuxHandler("update", h, unmarshalUpdateBookPayload))
+	service.LogInfo("mount", "ctrl", "Book", "action", "Update", "route", "PUT /books/:name")
+}
+
+// handleBookOrigin applies the CORS response headers corresponding to the origin.
+func handleBookOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "*") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
+}
+
+// unmarshalCreateBookPayload unmarshals the request body into the context request data Payload field.
+func unmarshalCreateBookPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &bookPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
+// unmarshalUpdateBookPayload unmarshals the request body into the context request data Payload field.
+func unmarshalUpdateBookPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &bookPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
 // UserController is the controller interface for the User actions.
 type UserController interface {
 	goa.Muxer

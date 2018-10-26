@@ -15,6 +15,12 @@ import (
 	"strings"
 )
 
+// BookHref returns the resource href.
+func BookHref(name interface{}) string {
+	paramname := strings.TrimLeftFunc(fmt.Sprintf("%v", name), func(r rune) bool { return r == '/' })
+	return fmt.Sprintf("/books/%v", paramname)
+}
+
 // UserHref returns the resource href.
 func UserHref(userID interface{}) string {
 	paramuserID := strings.TrimLeftFunc(fmt.Sprintf("%v", userID), func(r rune) bool { return r == '/' })

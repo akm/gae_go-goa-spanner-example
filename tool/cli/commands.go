@@ -20,6 +20,7 @@ import (
 	uuid "github.com/goadesign/goa/uuid"
 	"github.com/spf13/cobra"
 	"log"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -27,6 +28,38 @@ import (
 )
 
 type (
+	// CreateBookCommand is the command line data structure for the create action of Book
+	CreateBookCommand struct {
+		Payload     string
+		ContentType string
+		PrettyPrint bool
+	}
+
+	// DeleteBookCommand is the command line data structure for the delete action of Book
+	DeleteBookCommand struct {
+		Name        string
+		PrettyPrint bool
+	}
+
+	// ListBookCommand is the command line data structure for the list action of Book
+	ListBookCommand struct {
+		PrettyPrint bool
+	}
+
+	// ShowBookCommand is the command line data structure for the show action of Book
+	ShowBookCommand struct {
+		Name        string
+		PrettyPrint bool
+	}
+
+	// UpdateBookCommand is the command line data structure for the update action of Book
+	UpdateBookCommand struct {
+		Payload     string
+		ContentType string
+		Name        string
+		PrettyPrint bool
+	}
+
 	// CreateUserCommand is the command line data structure for the create action of User
 	CreateUserCommand struct {
 		Payload     string
@@ -65,19 +98,18 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 	var command, sub *cobra.Command
 	command = &cobra.Command{
 		Use:   "create",
-		Short: `create`,
+		Short: `create action`,
 	}
-	tmp1 := new(CreateUserCommand)
+	tmp1 := new(CreateBookCommand)
 	sub = &cobra.Command{
-		Use:   `user ["/users"]`,
+		Use:   `book ["/books"]`,
 		Short: ``,
 		Long: `
 
 Payload example:
 
 {
-   "city": "Repudiandae quae distinctio quaerat.",
-   "email": "Amet sed.",
+   "author": "Cum amet sed.",
    "name": "Impedit facilis suscipit amet cum numquam.",
    "userId": 1413402517411442328
 }`,
@@ -86,40 +118,40 @@ Payload example:
 	tmp1.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp1.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	app.AddCommand(command)
-	command = &cobra.Command{
-		Use:   "delete",
-		Short: `delete`,
-	}
-	tmp2 := new(DeleteUserCommand)
+	tmp2 := new(CreateUserCommand)
 	sub = &cobra.Command{
-		Use:   `user ["/users/USERID"]`,
+		Use:   `user ["/users"]`,
 		Short: ``,
-		RunE:  func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
+		Long: `
+
+Payload example:
+
+{
+   "city": "Aspernatur et numquam aut et similique consectetur.",
+   "email": "Aut ratione praesentium asperiores dolor.",
+   "name": "Iusto pariatur sequi adipisci eius temporibus.",
+   "userId": 1631653138405582357
+}`,
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
 	tmp2.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp2.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
 	app.AddCommand(command)
 	command = &cobra.Command{
-		Use:   "list",
-		Short: `list`,
+		Use:   "delete",
+		Short: `delete action`,
 	}
-	tmp3 := new(ListUserCommand)
+	tmp3 := new(DeleteBookCommand)
 	sub = &cobra.Command{
-		Use:   `user ["/users"]`,
+		Use:   `book ["/books/NAME"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
 	}
 	tmp3.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp3.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	app.AddCommand(command)
-	command = &cobra.Command{
-		Use:   "show",
-		Short: `show`,
-	}
-	tmp4 := new(ShowUserCommand)
+	tmp4 := new(DeleteUserCommand)
 	sub = &cobra.Command{
 		Use:   `user ["/users/USERID"]`,
 		Short: ``,
@@ -130,10 +162,74 @@ Payload example:
 	command.AddCommand(sub)
 	app.AddCommand(command)
 	command = &cobra.Command{
-		Use:   "update",
-		Short: ``,
+		Use:   "list",
+		Short: `list action`,
 	}
-	tmp5 := new(UpdateUserCommand)
+	tmp5 := new(ListBookCommand)
+	sub = &cobra.Command{
+		Use:   `book ["/books"]`,
+		Short: ``,
+		RunE:  func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
+	}
+	tmp5.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp5.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	tmp6 := new(ListUserCommand)
+	sub = &cobra.Command{
+		Use:   `user ["/users"]`,
+		Short: ``,
+		RunE:  func(cmd *cobra.Command, args []string) error { return tmp6.Run(c, args) },
+	}
+	tmp6.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp6.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	app.AddCommand(command)
+	command = &cobra.Command{
+		Use:   "show",
+		Short: `show action`,
+	}
+	tmp7 := new(ShowBookCommand)
+	sub = &cobra.Command{
+		Use:   `book ["/books/NAME"]`,
+		Short: ``,
+		RunE:  func(cmd *cobra.Command, args []string) error { return tmp7.Run(c, args) },
+	}
+	tmp7.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp7.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	tmp8 := new(ShowUserCommand)
+	sub = &cobra.Command{
+		Use:   `user ["/users/USERID"]`,
+		Short: ``,
+		RunE:  func(cmd *cobra.Command, args []string) error { return tmp8.Run(c, args) },
+	}
+	tmp8.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp8.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	app.AddCommand(command)
+	command = &cobra.Command{
+		Use:   "update",
+		Short: `update action`,
+	}
+	tmp9 := new(UpdateBookCommand)
+	sub = &cobra.Command{
+		Use:   `book ["/books/NAME"]`,
+		Short: ``,
+		Long: `
+
+Payload example:
+
+{
+   "author": "Cum amet sed.",
+   "name": "Impedit facilis suscipit amet cum numquam.",
+   "userId": 1413402517411442328
+}`,
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp9.Run(c, args) },
+	}
+	tmp9.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp9.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	tmp10 := new(UpdateUserCommand)
 	sub = &cobra.Command{
 		Use:   `user ["/users/USERID"]`,
 		Short: ``,
@@ -142,15 +238,15 @@ Payload example:
 Payload example:
 
 {
-   "city": "Repudiandae quae distinctio quaerat.",
-   "email": "Amet sed.",
-   "name": "Impedit facilis suscipit amet cum numquam.",
-   "userId": 1413402517411442328
+   "city": "Aspernatur et numquam aut et similique consectetur.",
+   "email": "Aut ratione praesentium asperiores dolor.",
+   "name": "Iusto pariatur sequi adipisci eius temporibus.",
+   "userId": 1631653138405582357
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp10.Run(c, args) },
 	}
-	tmp5.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp5.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp10.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp10.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
 	app.AddCommand(command)
 }
@@ -306,6 +402,150 @@ func boolArray(ins []string) ([]bool, error) {
 		vals = append(vals, *val)
 	}
 	return vals, nil
+}
+
+// Run makes the HTTP request corresponding to the CreateBookCommand command.
+func (cmd *CreateBookCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = "/books"
+	}
+	var payload client.BookPayload
+	if cmd.Payload != "" {
+		err := json.Unmarshal([]byte(cmd.Payload), &payload)
+		if err != nil {
+			return fmt.Errorf("failed to deserialize payload: %s", err)
+		}
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.CreateBook(ctx, path, &payload, cmd.ContentType)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *CreateBookCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
+	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
+}
+
+// Run makes the HTTP request corresponding to the DeleteBookCommand command.
+func (cmd *DeleteBookCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = fmt.Sprintf("/books/%v", url.QueryEscape(cmd.Name))
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.DeleteBook(ctx, path)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *DeleteBookCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	var name string
+	cc.Flags().StringVar(&cmd.Name, "name", name, ``)
+}
+
+// Run makes the HTTP request corresponding to the ListBookCommand command.
+func (cmd *ListBookCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = "/books"
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.ListBook(ctx, path)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *ListBookCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+}
+
+// Run makes the HTTP request corresponding to the ShowBookCommand command.
+func (cmd *ShowBookCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = fmt.Sprintf("/books/%v", url.QueryEscape(cmd.Name))
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.ShowBook(ctx, path)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *ShowBookCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	var name string
+	cc.Flags().StringVar(&cmd.Name, "name", name, ``)
+}
+
+// Run makes the HTTP request corresponding to the UpdateBookCommand command.
+func (cmd *UpdateBookCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = fmt.Sprintf("/books/%v", url.QueryEscape(cmd.Name))
+	}
+	var payload client.BookPayload
+	if cmd.Payload != "" {
+		err := json.Unmarshal([]byte(cmd.Payload), &payload)
+		if err != nil {
+			return fmt.Errorf("failed to deserialize payload: %s", err)
+		}
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.UpdateBook(ctx, path, &payload, cmd.ContentType)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *UpdateBookCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
+	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
+	var name string
+	cc.Flags().StringVar(&cmd.Name, "name", name, ``)
 }
 
 // Run makes the HTTP request corresponding to the CreateUserCommand command.

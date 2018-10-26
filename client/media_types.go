@@ -43,6 +43,30 @@ func (c *Client) DecodeBook(resp *http.Response) (*Book, error) {
 	return &decoded, err
 }
 
+// BookCollection is the media type for an array of Book (default view)
+//
+// Identifier: application/vnd.book+json; type=collection; view=default
+type BookCollection []*Book
+
+// Validate validates the BookCollection media type instance.
+func (mt BookCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// DecodeBookCollection decodes the BookCollection instance encoded in resp body.
+func (c *Client) DecodeBookCollection(resp *http.Response) (BookCollection, error) {
+	var decoded BookCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
 // DecodeErrorResponse decodes the ErrorResponse instance encoded in resp body.
 func (c *Client) DecodeErrorResponse(resp *http.Response) (*goa.ErrorResponse, error) {
 	var decoded goa.ErrorResponse
