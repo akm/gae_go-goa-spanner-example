@@ -10,11 +10,11 @@ var Int64Metadata = func() {
 }
 
 var UserPayload = Type("UserPayload", func() {
-	Member("user_id", String) // UUID
+	// Member("user_id", String) // UUID
 	Member("name", String)
 	Member("email", String)
 	Member("city", String)
-	Required("user_id", "name", "email", "city")
+	Required("name", "email", "city")
 })
 
 var User = MediaType("application/vnd.user+json", func() {
