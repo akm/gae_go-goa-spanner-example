@@ -3,6 +3,12 @@ package controller
 import (
 	"github.com/akm/gae_go-goa-spanner-example/app"
 	"github.com/goadesign/goa"
+	"github.com/satori/go.uuid"
+
+	"cloud.google.com/go/spanner"
+
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/log"
 )
 
 // UserController implements the User resource.
@@ -21,7 +27,38 @@ func (c *UserController) Create(ctx *app.CreateUserContext) error {
 
 	// Put your logic here
 
-	return nil
+	appCtx := appengine.NewContext(ctx.Request)
+	return createClient(appCtx, func(client *spanner.Client) error {
+		u, err :=  uuid.NewV4()
+		if err != nil {
+			return err
+		}
+		userId := u.String()
+
+		userColumns := []string{
+			"UserId", "Name", "Email", "City",
+		}
+		m := []*spanner.Mutation{
+			spanner.InsertOrUpdate("Users",
+				userColumns,
+				[]interface{}{
+					userId,
+					ctx.Payload.Name,
+					ctx.Payload.Email,
+					ctx.Payload.City,
+				}),
+		}
+		if _, err := client.Apply(ctx, m); err != nil {
+			log.Errorf(ctx, "Failed to insert\n")
+			return err
+		}
+		return ctx.Created(&app.User{
+			UserID: userId,
+			Name: ctx.Payload.Name,
+			Email: ctx.Payload.Email,
+			City: &ctx.Payload.City,
+		})
+	})
 	// UserController_Create: end_implement
 }
 
