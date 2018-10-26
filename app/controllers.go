@@ -212,7 +212,7 @@ func MountUserController(service *goa.Service, ctrl UserController) {
 	initService(service)
 	var h goa.Handler
 	service.Mux.Handle("OPTIONS", "/users", ctrl.MuxHandler("preflight", handleUserOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/users/:userId", ctrl.MuxHandler("preflight", handleUserOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/users/:user_id", ctrl.MuxHandler("preflight", handleUserOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -249,8 +249,8 @@ func MountUserController(service *goa.Service, ctrl UserController) {
 		return ctrl.Delete(rctx)
 	}
 	h = handleUserOrigin(h)
-	service.Mux.Handle("DELETE", "/users/:userId", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "User", "action", "Delete", "route", "DELETE /users/:userId")
+	service.Mux.Handle("DELETE", "/users/:user_id", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "User", "action", "Delete", "route", "DELETE /users/:user_id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -281,8 +281,8 @@ func MountUserController(service *goa.Service, ctrl UserController) {
 		return ctrl.Show(rctx)
 	}
 	h = handleUserOrigin(h)
-	service.Mux.Handle("GET", "/users/:userId", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "User", "action", "Show", "route", "GET /users/:userId")
+	service.Mux.Handle("GET", "/users/:user_id", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "User", "action", "Show", "route", "GET /users/:user_id")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -303,8 +303,8 @@ func MountUserController(service *goa.Service, ctrl UserController) {
 		return ctrl.Update(rctx)
 	}
 	h = handleUserOrigin(h)
-	service.Mux.Handle("PUT", "/users/:userId", ctrl.MuxHandler("update", h, unmarshalUpdateUserPayload))
-	service.LogInfo("mount", "ctrl", "User", "action", "Update", "route", "PUT /users/:userId")
+	service.Mux.Handle("PUT", "/users/:user_id", ctrl.MuxHandler("update", h, unmarshalUpdateUserPayload))
+	service.LogInfo("mount", "ctrl", "User", "action", "Update", "route", "PUT /users/:user_id")
 }
 
 // handleUserOrigin applies the CORS response headers corresponding to the origin.

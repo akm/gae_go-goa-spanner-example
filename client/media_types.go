@@ -21,12 +21,14 @@ import (
 type Book struct {
 	Author string `form:"author" json:"author" yaml:"author" xml:"author"`
 	Name   string `form:"name" json:"name" yaml:"name" xml:"name"`
-	UserID int64  `form:"userId" json:"userId" yaml:"userId" xml:"userId"`
+	UserID string `form:"user_id" json:"user_id" yaml:"user_id" xml:"user_id"`
 }
 
 // Validate validates the Book media type instance.
 func (mt *Book) Validate() (err error) {
-
+	if mt.UserID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "user_id"))
+	}
 	if mt.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "name"))
 	}
@@ -81,12 +83,14 @@ type User struct {
 	City   *string `form:"city,omitempty" json:"city,omitempty" yaml:"city,omitempty" xml:"city,omitempty"`
 	Email  string  `form:"email" json:"email" yaml:"email" xml:"email"`
 	Name   string  `form:"name" json:"name" yaml:"name" xml:"name"`
-	UserID int64   `form:"userId" json:"userId" yaml:"userId" xml:"userId"`
+	UserID string  `form:"user_id" json:"user_id" yaml:"user_id" xml:"user_id"`
 }
 
 // Validate validates the User media type instance.
 func (mt *User) Validate() (err error) {
-
+	if mt.UserID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "user_id"))
+	}
 	if mt.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "name"))
 	}

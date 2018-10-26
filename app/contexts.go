@@ -14,7 +14,6 @@ import (
 	"context"
 	"github.com/goadesign/goa"
 	"net/http"
-	"strconv"
 )
 
 // CreateBookContext provides the Book create action context.
@@ -448,7 +447,7 @@ type DeleteUserContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID int
+	UserID string
 }
 
 // NewDeleteUserContext parses the incoming request URL and body, performs validations and creates the
@@ -460,14 +459,10 @@ func NewDeleteUserContext(ctx context.Context, r *http.Request, service *goa.Ser
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := DeleteUserContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userId"]
+	paramUserID := req.Params["user_id"]
 	if len(paramUserID) > 0 {
 		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userId", rawUserID, "integer"))
-		}
+		rctx.UserID = rawUserID
 	}
 	return &rctx, err
 }
@@ -595,7 +590,7 @@ type ShowUserContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID int
+	UserID string
 }
 
 // NewShowUserContext parses the incoming request URL and body, performs validations and creates the
@@ -607,14 +602,10 @@ func NewShowUserContext(ctx context.Context, r *http.Request, service *goa.Servi
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ShowUserContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userId"]
+	paramUserID := req.Params["user_id"]
 	if len(paramUserID) > 0 {
 		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userId", rawUserID, "integer"))
-		}
+		rctx.UserID = rawUserID
 	}
 	return &rctx, err
 }
@@ -672,7 +663,7 @@ type UpdateUserContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID  int
+	UserID  string
 	Payload *UserPayload
 }
 
@@ -685,14 +676,10 @@ func NewUpdateUserContext(ctx context.Context, r *http.Request, service *goa.Ser
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := UpdateUserContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userId"]
+	paramUserID := req.Params["user_id"]
 	if len(paramUserID) > 0 {
 		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userId", rawUserID, "integer"))
-		}
+		rctx.UserID = rawUserID
 	}
 	return &rctx, err
 }

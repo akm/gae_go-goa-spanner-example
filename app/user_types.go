@@ -18,13 +18,13 @@ import (
 type bookPayload struct {
 	Author *string `form:"author,omitempty" json:"author,omitempty" yaml:"author,omitempty" xml:"author,omitempty"`
 	Name   *string `form:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty" xml:"name,omitempty"`
-	UserID *int64  `form:"userId,omitempty" json:"userId,omitempty" yaml:"userId,omitempty" xml:"userId,omitempty"`
+	UserID *string `form:"user_id,omitempty" json:"user_id,omitempty" yaml:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
 // Validate validates the bookPayload type instance.
 func (ut *bookPayload) Validate() (err error) {
 	if ut.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "userId"))
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "user_id"))
 	}
 	if ut.Name == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "name"))
@@ -54,12 +54,14 @@ func (ut *bookPayload) Publicize() *BookPayload {
 type BookPayload struct {
 	Author string `form:"author" json:"author" yaml:"author" xml:"author"`
 	Name   string `form:"name" json:"name" yaml:"name" xml:"name"`
-	UserID int64  `form:"userId" json:"userId" yaml:"userId" xml:"userId"`
+	UserID string `form:"user_id" json:"user_id" yaml:"user_id" xml:"user_id"`
 }
 
 // Validate validates the BookPayload type instance.
 func (ut *BookPayload) Validate() (err error) {
-
+	if ut.UserID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "user_id"))
+	}
 	if ut.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "name"))
 	}
@@ -74,13 +76,13 @@ type userPayload struct {
 	City   *string `form:"city,omitempty" json:"city,omitempty" yaml:"city,omitempty" xml:"city,omitempty"`
 	Email  *string `form:"email,omitempty" json:"email,omitempty" yaml:"email,omitempty" xml:"email,omitempty"`
 	Name   *string `form:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty" xml:"name,omitempty"`
-	UserID *int64  `form:"userId,omitempty" json:"userId,omitempty" yaml:"userId,omitempty" xml:"userId,omitempty"`
+	UserID *string `form:"user_id,omitempty" json:"user_id,omitempty" yaml:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
 // Validate validates the userPayload type instance.
 func (ut *userPayload) Validate() (err error) {
 	if ut.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "userId"))
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "user_id"))
 	}
 	if ut.Name == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "name"))
@@ -117,12 +119,14 @@ type UserPayload struct {
 	City   string `form:"city" json:"city" yaml:"city" xml:"city"`
 	Email  string `form:"email" json:"email" yaml:"email" xml:"email"`
 	Name   string `form:"name" json:"name" yaml:"name" xml:"name"`
-	UserID int64  `form:"userId" json:"userId" yaml:"userId" xml:"userId"`
+	UserID string `form:"user_id" json:"user_id" yaml:"user_id" xml:"user_id"`
 }
 
 // Validate validates the UserPayload type instance.
 func (ut *UserPayload) Validate() (err error) {
-
+	if ut.UserID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "user_id"))
+	}
 	if ut.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "name"))
 	}

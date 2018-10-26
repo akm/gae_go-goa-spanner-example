@@ -69,7 +69,7 @@ type (
 
 	// DeleteUserCommand is the command line data structure for the delete action of User
 	DeleteUserCommand struct {
-		UserID      int
+		UserID      string
 		PrettyPrint bool
 	}
 
@@ -80,7 +80,7 @@ type (
 
 	// ShowUserCommand is the command line data structure for the show action of User
 	ShowUserCommand struct {
-		UserID      int
+		UserID      string
 		PrettyPrint bool
 	}
 
@@ -88,7 +88,7 @@ type (
 	UpdateUserCommand struct {
 		Payload     string
 		ContentType string
-		UserID      int
+		UserID      string
 		PrettyPrint bool
 	}
 )
@@ -109,9 +109,9 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 Payload example:
 
 {
-   "author": "Cum amet sed.",
-   "name": "Impedit facilis suscipit amet cum numquam.",
-   "userId": 1413402517411442328
+   "author": "Impedit facilis suscipit amet cum numquam.",
+   "name": "Et aspernatur et.",
+   "user_id": "Aut et similique consectetur corporis aut ratione."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
@@ -127,10 +127,10 @@ Payload example:
 Payload example:
 
 {
-   "city": "Aspernatur et numquam aut et similique consectetur.",
-   "email": "Aut ratione praesentium asperiores dolor.",
-   "name": "Iusto pariatur sequi adipisci eius temporibus.",
-   "userId": 1631653138405582357
+   "city": "Asperiores dolor ut iusto pariatur.",
+   "email": "Adipisci eius temporibus adipisci quis quibusdam ut.",
+   "name": "Enim eum aliquam eaque repellendus consequuntur dignissimos.",
+   "user_id": "Delectus cum veritatis."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
@@ -153,7 +153,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp4 := new(DeleteUserCommand)
 	sub = &cobra.Command{
-		Use:   `user ["/users/USERID"]`,
+		Use:   `user ["/users/USER_ID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
 	}
@@ -199,7 +199,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp8 := new(ShowUserCommand)
 	sub = &cobra.Command{
-		Use:   `user ["/users/USERID"]`,
+		Use:   `user ["/users/USER_ID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp8.Run(c, args) },
 	}
@@ -220,9 +220,9 @@ Payload example:
 Payload example:
 
 {
-   "author": "Cum amet sed.",
-   "name": "Impedit facilis suscipit amet cum numquam.",
-   "userId": 1413402517411442328
+   "author": "Impedit facilis suscipit amet cum numquam.",
+   "name": "Et aspernatur et.",
+   "user_id": "Aut et similique consectetur corporis aut ratione."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp9.Run(c, args) },
 	}
@@ -231,17 +231,17 @@ Payload example:
 	command.AddCommand(sub)
 	tmp10 := new(UpdateUserCommand)
 	sub = &cobra.Command{
-		Use:   `user ["/users/USERID"]`,
+		Use:   `user ["/users/USER_ID"]`,
 		Short: ``,
 		Long: `
 
 Payload example:
 
 {
-   "city": "Aspernatur et numquam aut et similique consectetur.",
-   "email": "Aut ratione praesentium asperiores dolor.",
-   "name": "Iusto pariatur sequi adipisci eius temporibus.",
-   "userId": 1631653138405582357
+   "city": "Asperiores dolor ut iusto pariatur.",
+   "email": "Adipisci eius temporibus adipisci quis quibusdam ut.",
+   "name": "Enim eum aliquam eaque repellendus consequuntur dignissimos.",
+   "user_id": "Delectus cum veritatis."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp10.Run(c, args) },
 	}
@@ -587,7 +587,7 @@ func (cmd *DeleteUserCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/users/%v", cmd.UserID)
+		path = fmt.Sprintf("/users/%v", url.QueryEscape(cmd.UserID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -603,8 +603,8 @@ func (cmd *DeleteUserCommand) Run(c *client.Client, args []string) error {
 
 // RegisterFlags registers the command flags with the command line.
 func (cmd *DeleteUserCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var userID int
-	cc.Flags().IntVar(&cmd.UserID, "userId", userID, ``)
+	var userID string
+	cc.Flags().StringVar(&cmd.UserID, "user_id", userID, ``)
 }
 
 // Run makes the HTTP request corresponding to the ListUserCommand command.
@@ -637,7 +637,7 @@ func (cmd *ShowUserCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/users/%v", cmd.UserID)
+		path = fmt.Sprintf("/users/%v", url.QueryEscape(cmd.UserID))
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -653,8 +653,8 @@ func (cmd *ShowUserCommand) Run(c *client.Client, args []string) error {
 
 // RegisterFlags registers the command flags with the command line.
 func (cmd *ShowUserCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var userID int
-	cc.Flags().IntVar(&cmd.UserID, "userId", userID, ``)
+	var userID string
+	cc.Flags().StringVar(&cmd.UserID, "user_id", userID, ``)
 }
 
 // Run makes the HTTP request corresponding to the UpdateUserCommand command.
@@ -663,7 +663,7 @@ func (cmd *UpdateUserCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/users/%v", cmd.UserID)
+		path = fmt.Sprintf("/users/%v", url.QueryEscape(cmd.UserID))
 	}
 	var payload client.UserPayload
 	if cmd.Payload != "" {
@@ -688,6 +688,6 @@ func (cmd *UpdateUserCommand) Run(c *client.Client, args []string) error {
 func (cmd *UpdateUserCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
 	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
-	var userID int
-	cc.Flags().IntVar(&cmd.UserID, "userId", userID, ``)
+	var userID string
+	cc.Flags().StringVar(&cmd.UserID, "user_id", userID, ``)
 }

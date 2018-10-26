@@ -508,7 +508,7 @@ func CreateUserUnauthorized(t goatest.TInterface, ctx context.Context, service *
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteUserBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, error) {
+func DeleteUserBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -536,7 +536,7 @@ func DeleteUserBadRequest(t goatest.TInterface, ctx context.Context, service *go
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -577,7 +577,7 @@ func DeleteUserBadRequest(t goatest.TInterface, ctx context.Context, service *go
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteUserConflict(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, error) {
+func DeleteUserConflict(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -605,7 +605,7 @@ func DeleteUserConflict(t goatest.TInterface, ctx context.Context, service *goa.
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -646,7 +646,7 @@ func DeleteUserConflict(t goatest.TInterface, ctx context.Context, service *goa.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteUserInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, error) {
+func DeleteUserInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -674,7 +674,7 @@ func DeleteUserInternalServerError(t goatest.TInterface, ctx context.Context, se
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -715,7 +715,7 @@ func DeleteUserInternalServerError(t goatest.TInterface, ctx context.Context, se
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, error) {
+func DeleteUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -743,7 +743,7 @@ func DeleteUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -784,7 +784,7 @@ func DeleteUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteUserOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, *app.User) {
+func DeleteUserOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, *app.User) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -812,7 +812,7 @@ func DeleteUserOK(t goatest.TInterface, ctx context.Context, service *goa.Servic
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -858,7 +858,7 @@ func DeleteUserOK(t goatest.TInterface, ctx context.Context, service *goa.Servic
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteUserUnauthorized(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, error) {
+func DeleteUserUnauthorized(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -886,7 +886,7 @@ func DeleteUserUnauthorized(t goatest.TInterface, ctx context.Context, service *
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -1340,7 +1340,7 @@ func ListUserUnauthorized(t goatest.TInterface, ctx context.Context, service *go
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowUserBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, error) {
+func ShowUserBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1368,7 +1368,7 @@ func ShowUserBadRequest(t goatest.TInterface, ctx context.Context, service *goa.
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -1409,7 +1409,7 @@ func ShowUserBadRequest(t goatest.TInterface, ctx context.Context, service *goa.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowUserConflict(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, error) {
+func ShowUserConflict(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1437,7 +1437,7 @@ func ShowUserConflict(t goatest.TInterface, ctx context.Context, service *goa.Se
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -1478,7 +1478,7 @@ func ShowUserConflict(t goatest.TInterface, ctx context.Context, service *goa.Se
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowUserInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, error) {
+func ShowUserInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1506,7 +1506,7 @@ func ShowUserInternalServerError(t goatest.TInterface, ctx context.Context, serv
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -1547,7 +1547,7 @@ func ShowUserInternalServerError(t goatest.TInterface, ctx context.Context, serv
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, error) {
+func ShowUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1575,7 +1575,7 @@ func ShowUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.Se
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -1616,7 +1616,7 @@ func ShowUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.Se
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowUserOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, *app.User) {
+func ShowUserOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, *app.User) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1644,7 +1644,7 @@ func ShowUserOK(t goatest.TInterface, ctx context.Context, service *goa.Service,
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -1690,7 +1690,7 @@ func ShowUserOK(t goatest.TInterface, ctx context.Context, service *goa.Service,
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowUserUnauthorized(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int) (http.ResponseWriter, error) {
+func ShowUserUnauthorized(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1718,7 +1718,7 @@ func ShowUserUnauthorized(t goatest.TInterface, ctx context.Context, service *go
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -1759,7 +1759,7 @@ func ShowUserUnauthorized(t goatest.TInterface, ctx context.Context, service *go
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateUserBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int, payload *app.UserPayload) (http.ResponseWriter, error) {
+func UpdateUserBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string, payload *app.UserPayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1797,7 +1797,7 @@ func UpdateUserBadRequest(t goatest.TInterface, ctx context.Context, service *go
 		panic("invalid test " + _err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -1839,7 +1839,7 @@ func UpdateUserBadRequest(t goatest.TInterface, ctx context.Context, service *go
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateUserConflict(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int, payload *app.UserPayload) (http.ResponseWriter, error) {
+func UpdateUserConflict(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string, payload *app.UserPayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1877,7 +1877,7 @@ func UpdateUserConflict(t goatest.TInterface, ctx context.Context, service *goa.
 		panic("invalid test " + _err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -1919,7 +1919,7 @@ func UpdateUserConflict(t goatest.TInterface, ctx context.Context, service *goa.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateUserInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int, payload *app.UserPayload) (http.ResponseWriter, error) {
+func UpdateUserInternalServerError(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string, payload *app.UserPayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -1957,7 +1957,7 @@ func UpdateUserInternalServerError(t goatest.TInterface, ctx context.Context, se
 		panic("invalid test " + _err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -1999,7 +1999,7 @@ func UpdateUserInternalServerError(t goatest.TInterface, ctx context.Context, se
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int, payload *app.UserPayload) (http.ResponseWriter, error) {
+func UpdateUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string, payload *app.UserPayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -2037,7 +2037,7 @@ func UpdateUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.
 		panic("invalid test " + _err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -2079,7 +2079,7 @@ func UpdateUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateUserOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int, payload *app.UserPayload) (http.ResponseWriter, *app.User) {
+func UpdateUserOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string, payload *app.UserPayload) (http.ResponseWriter, *app.User) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -2118,7 +2118,7 @@ func UpdateUserOK(t goatest.TInterface, ctx context.Context, service *goa.Servic
 		panic("invalid test " + _err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -2165,7 +2165,7 @@ func UpdateUserOK(t goatest.TInterface, ctx context.Context, service *goa.Servic
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateUserUnauthorized(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID int, payload *app.UserPayload) (http.ResponseWriter, error) {
+func UpdateUserUnauthorized(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.UserController, userID string, payload *app.UserPayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -2203,7 +2203,7 @@ func UpdateUserUnauthorized(t goatest.TInterface, ctx context.Context, service *
 		panic("invalid test " + _err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userId"] = []string{fmt.Sprintf("%v", userID)}
+	prms["user_id"] = []string{fmt.Sprintf("%v", userID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}

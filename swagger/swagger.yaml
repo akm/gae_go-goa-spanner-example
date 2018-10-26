@@ -10,7 +10,7 @@ definitions:
     example:
       author: Hic tenetur ut.
       name: Harum ratione.
-      userId: 1.3157771646406797e+18
+      user_id: Qui blanditiis.
     properties:
       author:
         example: Hic tenetur ut.
@@ -18,12 +18,11 @@ definitions:
       name:
         example: Harum ratione.
         type: string
-      userId:
-        example: 1.3157771646406797e+18
-        format: int64
-        type: integer
+      user_id:
+        example: Qui blanditiis.
+        type: string
     required:
-    - userId
+    - user_id
     - name
     - author
     title: 'Mediatype identifier: application/vnd.book+json; view=default'
@@ -33,35 +32,31 @@ definitions:
     example:
     - author: Hic tenetur ut.
       name: Harum ratione.
-      userId: 1.3157771646406797e+18
+      user_id: Qui blanditiis.
     - author: Hic tenetur ut.
       name: Harum ratione.
-      userId: 1.3157771646406797e+18
-    - author: Hic tenetur ut.
-      name: Harum ratione.
-      userId: 1.3157771646406797e+18
+      user_id: Qui blanditiis.
     items:
       $ref: '#/definitions/Book'
     title: 'Mediatype identifier: application/vnd.book+json; type=collection; view=default'
     type: array
   BookPayload:
     example:
-      author: Cum amet sed.
-      name: Impedit facilis suscipit amet cum numquam.
-      userId: 1.4134025174114424e+18
+      author: Impedit facilis suscipit amet cum numquam.
+      name: Et aspernatur et.
+      user_id: Aut et similique consectetur corporis aut ratione.
     properties:
       author:
-        example: Cum amet sed.
-        type: string
-      name:
         example: Impedit facilis suscipit amet cum numquam.
         type: string
-      userId:
-        example: 1.4134025174114424e+18
-        format: int64
-        type: integer
+      name:
+        example: Et aspernatur et.
+        type: string
+      user_id:
+        example: Aut et similique consectetur corporis aut ratione.
+        type: string
     required:
-    - userId
+    - user_id
     - name
     - author
     title: BookPayload
@@ -69,26 +64,25 @@ definitions:
   User:
     description: User (default view)
     example:
-      city: Numquam consequatur aliquam iure non culpa sed.
-      email: Nihil saepe et quia.
+      city: Aliquam iure non culpa sed officia.
+      email: Saepe et quia.
       name: Est quas repudiandae.
-      userId: 8.759870265339155e+18
+      user_id: Distinctio quaerat cum amet.
     properties:
       city:
-        example: Numquam consequatur aliquam iure non culpa sed.
+        example: Aliquam iure non culpa sed officia.
         type: string
       email:
-        example: Nihil saepe et quia.
+        example: Saepe et quia.
         type: string
       name:
         example: Est quas repudiandae.
         type: string
-      userId:
-        example: 8.759870265339155e+18
-        format: int64
-        type: integer
+      user_id:
+        example: Distinctio quaerat cum amet.
+        type: string
     required:
-    - userId
+    - user_id
     - name
     - email
     title: 'Mediatype identifier: application/vnd.user+json; view=default'
@@ -96,40 +90,35 @@ definitions:
   UserCollection:
     description: UserCollection is the media type for an array of User (default view)
     example:
-    - city: Numquam consequatur aliquam iure non culpa sed.
-      email: Nihil saepe et quia.
+    - city: Aliquam iure non culpa sed officia.
+      email: Saepe et quia.
       name: Est quas repudiandae.
-      userId: 8.759870265339155e+18
-    - city: Numquam consequatur aliquam iure non culpa sed.
-      email: Nihil saepe et quia.
-      name: Est quas repudiandae.
-      userId: 8.759870265339155e+18
+      user_id: Distinctio quaerat cum amet.
     items:
       $ref: '#/definitions/User'
     title: 'Mediatype identifier: application/vnd.user+json; type=collection; view=default'
     type: array
   UserPayload:
     example:
-      city: Aspernatur et numquam aut et similique consectetur.
-      email: Aut ratione praesentium asperiores dolor.
-      name: Iusto pariatur sequi adipisci eius temporibus.
-      userId: 1.6316531384055823e+18
+      city: Asperiores dolor ut iusto pariatur.
+      email: Adipisci eius temporibus adipisci quis quibusdam ut.
+      name: Enim eum aliquam eaque repellendus consequuntur dignissimos.
+      user_id: Delectus cum veritatis.
     properties:
       city:
-        example: Aspernatur et numquam aut et similique consectetur.
+        example: Asperiores dolor ut iusto pariatur.
         type: string
       email:
-        example: Aut ratione praesentium asperiores dolor.
+        example: Adipisci eius temporibus adipisci quis quibusdam ut.
         type: string
       name:
-        example: Iusto pariatur sequi adipisci eius temporibus.
+        example: Enim eum aliquam eaque repellendus consequuntur dignissimos.
         type: string
-      userId:
-        example: 1.6316531384055823e+18
-        format: int64
-        type: integer
+      user_id:
+        example: Delectus cum veritatis.
+        type: string
     required:
-    - userId
+    - user_id
     - name
     - email
     - city
@@ -464,15 +453,15 @@ paths:
       summary: create User
       tags:
       - User
-  /users/{userId}:
+  /users/{user_id}:
     delete:
       description: delete
       operationId: User#delete
       parameters:
       - in: path
-        name: userId
+        name: user_id
         required: true
-        type: integer
+        type: string
       produces:
       - application/vnd.goa.error
       - application/vnd.user+json
@@ -511,9 +500,9 @@ paths:
       operationId: User#show
       parameters:
       - in: path
-        name: userId
+        name: user_id
         required: true
-        type: integer
+        type: string
       produces:
       - application/vnd.goa.error
       - application/vnd.user+json
@@ -551,9 +540,9 @@ paths:
       operationId: User#update
       parameters:
       - in: path
-        name: userId
+        name: user_id
         required: true
-        type: integer
+        type: string
       - in: body
         name: payload
         required: true

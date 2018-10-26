@@ -16,7 +16,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 )
 
 // CreateUserPath computes a request path to the create action of User.
@@ -63,8 +62,8 @@ func (c *Client) NewCreateUserRequest(ctx context.Context, path string, payload 
 }
 
 // DeleteUserPath computes a request path to the delete action of User.
-func DeleteUserPath(userID int) string {
-	param0 := strconv.Itoa(userID)
+func DeleteUserPath(userID string) string {
+	param0 := userID
 
 	return fmt.Sprintf("/users/%s", param0)
 }
@@ -122,8 +121,8 @@ func (c *Client) NewListUserRequest(ctx context.Context, path string) (*http.Req
 }
 
 // ShowUserPath computes a request path to the show action of User.
-func ShowUserPath(userID int) string {
-	param0 := strconv.Itoa(userID)
+func ShowUserPath(userID string) string {
+	param0 := userID
 
 	return fmt.Sprintf("/users/%s", param0)
 }
@@ -152,8 +151,8 @@ func (c *Client) NewShowUserRequest(ctx context.Context, path string) (*http.Req
 }
 
 // UpdateUserPath computes a request path to the update action of User.
-func UpdateUserPath(userID int) string {
-	param0 := strconv.Itoa(userID)
+func UpdateUserPath(userID string) string {
+	param0 := userID
 
 	return fmt.Sprintf("/users/%s", param0)
 }
