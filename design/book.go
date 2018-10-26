@@ -6,16 +6,16 @@ import (
 )
 
 var BookPayload = Type("BookPayload", func() {
-	Member("userId", String) // UUID
+	Member("user_id", String) // UUID
 	Member("name", String)
 	Member("author", String)
-	Required("userId", "name", "author")
+	Required("user_id", "name", "author")
 })
 
 var Book = MediaType("application/vnd.book+json", func() {
 	Description("Book")
 
-	attrNames := []string{"userId", "name", "author"}
+	attrNames := []string{"user_id", "name", "author"}
 	Reference(BookPayload)
 	Attributes(func() {
 		for _, attrName := range attrNames {

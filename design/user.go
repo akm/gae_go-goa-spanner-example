@@ -10,23 +10,23 @@ var Int64Metadata = func() {
 }
 
 var UserPayload = Type("UserPayload", func() {
-	Member("userId", String) // UUID
+	Member("user_id", String) // UUID
 	Member("name", String)
 	Member("email", String)
 	Member("city", String)
-	Required("userId", "name", "email", "city")
+	Required("user_id", "name", "email", "city")
 })
 
 var User = MediaType("application/vnd.user+json", func() {
 	Description("User")
 
-	attrNames := []string{"userId", "name", "email", "city"}
+	attrNames := []string{"user_id", "name", "email", "city"}
 	Reference(UserPayload)
 	Attributes(func() {
 		for _, attrName := range attrNames {
 			Attribute(attrName)
 		}
-		Required("userId", "name", "email")
+		Required("user_id", "name", "email")
 	})
 
 	View("default", func() {
@@ -55,17 +55,17 @@ var _ = Resource("User", func() {
 	})
 	Action("show", func() {
 		Description("show")
-		Routing(GET("/:userId"))
+		Routing(GET("/:user_id"))
 		Params(func() {
-			Param("userId", String) // UUID
+			Param("user_id", String) // UUID
 		})
 		Response(OK, User)
 		UseTrait(DefaultResponseTrait)
 	})
 	Action("update", func() {
-		Routing(PUT("/:userId"))
+		Routing(PUT("/:user_id"))
 		Params(func() {
-			Param("userId", String) // UUID
+			Param("user_id", String) // UUID
 		})
 		Payload(UserPayload)
 		Response(OK, User)
@@ -73,9 +73,9 @@ var _ = Resource("User", func() {
 	})
 	Action("delete", func() {
 		Description("delete")
-		Routing(DELETE("/:userId"))
+		Routing(DELETE("/:user_id"))
 		Params(func() {
-			Param("userId", String) // UUID
+			Param("user_id", String) // UUID
 		})
 		Response(OK, User)
 		UseTrait(DefaultResponseTrait)
