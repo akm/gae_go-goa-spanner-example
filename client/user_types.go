@@ -59,9 +59,7 @@ type BookPayload struct {
 
 // Validate validates the BookPayload type instance.
 func (ut *BookPayload) Validate() (err error) {
-	if ut.UserID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "userId"))
-	}
+
 	if ut.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "name"))
 	}

@@ -26,9 +26,7 @@ type Book struct {
 
 // Validate validates the Book media type instance.
 func (mt *Book) Validate() (err error) {
-	if mt.UserID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "userId"))
-	}
+
 	if mt.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "name"))
 	}

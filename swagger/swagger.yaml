@@ -8,22 +8,22 @@ definitions:
   User:
     description: User (default view)
     example:
-      city: Consequatur aliquam iure non culpa sed officia.
-      email: Saepe et quia.
-      name: Est quas repudiandae.
-      userId: 8.759870265339155e+18
+      city: Blanditiis numquam consequatur.
+      email: Iure non culpa sed officia.
+      name: Saepe et quia.
+      userId: 3.2907803431339505e+18
     properties:
       city:
-        example: Consequatur aliquam iure non culpa sed officia.
+        example: Blanditiis numquam consequatur.
         type: string
       email:
-        example: Saepe et quia.
+        example: Iure non culpa sed officia.
         type: string
       name:
-        example: Est quas repudiandae.
+        example: Saepe et quia.
         type: string
       userId:
-        example: 8.759870265339155e+18
+        example: 3.2907803431339505e+18
         format: int64
         type: integer
     required:
@@ -35,32 +35,40 @@ definitions:
   UserCollection:
     description: UserCollection is the media type for an array of User (default view)
     example:
-    - city: Consequatur aliquam iure non culpa sed officia.
-      email: Saepe et quia.
-      name: Est quas repudiandae.
-      userId: 8.759870265339155e+18
+    - city: Blanditiis numquam consequatur.
+      email: Iure non culpa sed officia.
+      name: Saepe et quia.
+      userId: 3.2907803431339505e+18
+    - city: Blanditiis numquam consequatur.
+      email: Iure non culpa sed officia.
+      name: Saepe et quia.
+      userId: 3.2907803431339505e+18
+    - city: Blanditiis numquam consequatur.
+      email: Iure non culpa sed officia.
+      name: Saepe et quia.
+      userId: 3.2907803431339505e+18
     items:
       $ref: '#/definitions/User'
     title: 'Mediatype identifier: application/vnd.user+json; type=collection; view=default'
     type: array
   UserPayload:
     example:
-      city: Cum amet sed.
-      email: Impedit facilis suscipit amet cum numquam.
-      name: Et aspernatur et.
-      userId: 8.361149644461282e+18
+      city: Repudiandae quae distinctio quaerat.
+      email: Amet sed.
+      name: Impedit facilis suscipit amet cum numquam.
+      userId: 1.4134025174114424e+18
     properties:
       city:
-        example: Cum amet sed.
+        example: Repudiandae quae distinctio quaerat.
         type: string
       email:
-        example: Impedit facilis suscipit amet cum numquam.
+        example: Amet sed.
         type: string
       name:
-        example: Et aspernatur et.
+        example: Impedit facilis suscipit amet cum numquam.
         type: string
       userId:
-        example: 8.361149644461282e+18
+        example: 1.4134025174114424e+18
         format: int64
         type: integer
     required:
