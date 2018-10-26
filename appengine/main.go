@@ -1,14 +1,18 @@
 //go:generate goagen bootstrap -d github.com/akm/gae_go-goa-spanner-example/design
 
-package main
+package appengine
 
 import (
-	"github.com/akm/gae_go-goa-spanner-example/app"
+	"net/http"
+
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware"
+
+	"github.com/akm/gae_go-goa-spanner-example/app"
+	"github.com/akm/gae_go-goa-spanner-example/controller"
 )
 
-func main() {
+func init() {
 	// Create service
 	service := goa.New("appengine")
 
@@ -19,12 +23,13 @@ func main() {
 	service.Use(middleware.Recover())
 
 	// Mount "User" controller
-	c := NewUserController(service)
+	c := controller.NewUserController(service)
 	app.MountUserController(service, c)
 
-	// Start service
-	if err := service.ListenAndServe(":8080"); err != nil {
-		service.LogError("startup", "err", err)
-	}
+	// // Start service
+	// if err := service.ListenAndServe(":8080"); err != nil {
+	// 	service.LogError("startup", "err", err)
+	// }
 
+	http.HandleFunc("/", service.Mux.ServeHTTP)
 }
