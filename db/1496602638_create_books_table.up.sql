@@ -1,5 +1,5 @@
 CREATE TABLE Books (
-  UserId  INT64,
+  UserId  STRING(36),
   Name    STRING(40),
   Author  STRING(40)
 ) PRIMARY KEY(UserId, Name),

@@ -10,7 +10,7 @@ var Int64Metadata = func() {
 }
 
 var UserPayload = Type("UserPayload", func() {
-	Member("userId", Integer, Int64Metadata)
+	Member("userId", String) // UUID
 	Member("name", String)
 	Member("email", String)
 	Member("city", String)
@@ -57,7 +57,7 @@ var _ = Resource("User", func() {
 		Description("show")
 		Routing(GET("/:userId"))
 		Params(func() {
-			Param("userId", Integer, Int64Metadata)
+			Param("userId", String) // UUID
 		})
 		Response(OK, User)
 		UseTrait(DefaultResponseTrait)
@@ -65,7 +65,7 @@ var _ = Resource("User", func() {
 	Action("update", func() {
 		Routing(PUT("/:userId"))
 		Params(func() {
-			Param("userId", Integer, Int64Metadata)
+			Param("userId", String) // UUID
 		})
 		Payload(UserPayload)
 		Response(OK, User)
@@ -75,7 +75,7 @@ var _ = Resource("User", func() {
 		Description("delete")
 		Routing(DELETE("/:userId"))
 		Params(func() {
-			Param("userId", Integer, Int64Metadata)
+			Param("userId", String) // UUID
 		})
 		Response(OK, User)
 		UseTrait(DefaultResponseTrait)

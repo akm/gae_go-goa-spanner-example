@@ -6,9 +6,7 @@ import (
 )
 
 var BookPayload = Type("BookPayload", func() {
-	Member("userId", Integer, func() {
-		Metadata("struct:field:type", "int64")
-	})
+	Member("userId", String) // UUID
 	Member("name", String)
 	Member("author", String)
 	Required("userId", "name", "author")
