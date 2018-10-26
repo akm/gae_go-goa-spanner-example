@@ -32,3 +32,49 @@ var Book = MediaType("application/vnd.book+json", func() {
 		}
 	})
 })
+
+var _ = Resource("Book", func() {
+	BasePath("/books")
+	DefaultMedia(Book)
+
+	Action("list", func() {
+		Description("list")
+		Routing(GET(""))
+		Response(OK, CollectionOf(Book))
+		UseTrait(DefaultResponseTrait)
+	})
+	Action("create", func() {
+		Description("create")
+		Routing(POST(""))
+		Payload(BookPayload)
+		Response(Created, Book)
+		UseTrait(DefaultResponseTrait)
+	})
+	Action("show", func() {
+		Description("show")
+		Routing(GET("/:name"))
+		Params(func() {
+			Param("name", String)
+		})
+		Response(OK, Book)
+		UseTrait(DefaultResponseTrait)
+	})
+	Action("update", func() {
+		Routing(PUT("/:name"))
+		Params(func() {
+			Param("name", String)
+		})
+		Payload(BookPayload)
+		Response(OK, Book)
+		UseTrait(DefaultResponseTrait)
+	})
+	Action("delete", func() {
+		Description("delete")
+		Routing(DELETE("/:name"))
+		Params(func() {
+			Param("name", String)
+		})
+		Response(OK, Book)
+		UseTrait(DefaultResponseTrait)
+	})
+})
