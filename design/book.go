@@ -6,7 +6,7 @@ import (
 )
 
 var BookPayload = Type("BookPayload", func() {
-	Member("userId", String, func() {
+	Member("userId", Integer, func() {
 		Metadata("struct:field:type", "int64")
 	})
 	Member("name", String)
