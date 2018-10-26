@@ -36,6 +36,9 @@ definitions:
     - author: Hic tenetur ut.
       name: Harum ratione.
       user_id: Qui blanditiis.
+    - author: Hic tenetur ut.
+      name: Harum ratione.
+      user_id: Qui blanditiis.
     items:
       $ref: '#/definitions/Book'
     title: 'Mediatype identifier: application/vnd.book+json; type=collection; view=default'
@@ -94,6 +97,10 @@ definitions:
       email: Saepe et quia.
       name: Est quas repudiandae.
       user_id: Distinctio quaerat cum amet.
+    - city: Aliquam iure non culpa sed officia.
+      email: Saepe et quia.
+      name: Est quas repudiandae.
+      user_id: Distinctio quaerat cum amet.
     items:
       $ref: '#/definitions/User'
     title: 'Mediatype identifier: application/vnd.user+json; type=collection; view=default'
@@ -103,7 +110,6 @@ definitions:
       city: Asperiores dolor ut iusto pariatur.
       email: Adipisci eius temporibus adipisci quis quibusdam ut.
       name: Enim eum aliquam eaque repellendus consequuntur dignissimos.
-      user_id: Delectus cum veritatis.
     properties:
       city:
         example: Asperiores dolor ut iusto pariatur.
@@ -114,11 +120,7 @@ definitions:
       name:
         example: Enim eum aliquam eaque repellendus consequuntur dignissimos.
         type: string
-      user_id:
-        example: Delectus cum veritatis.
-        type: string
     required:
-    - user_id
     - name
     - email
     - city

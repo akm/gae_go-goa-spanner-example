@@ -73,17 +73,13 @@ func (ut *BookPayload) Validate() (err error) {
 
 // userPayload user type.
 type userPayload struct {
-	City   *string `form:"city,omitempty" json:"city,omitempty" yaml:"city,omitempty" xml:"city,omitempty"`
-	Email  *string `form:"email,omitempty" json:"email,omitempty" yaml:"email,omitempty" xml:"email,omitempty"`
-	Name   *string `form:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty" xml:"name,omitempty"`
-	UserID *string `form:"user_id,omitempty" json:"user_id,omitempty" yaml:"user_id,omitempty" xml:"user_id,omitempty"`
+	City  *string `form:"city,omitempty" json:"city,omitempty" yaml:"city,omitempty" xml:"city,omitempty"`
+	Email *string `form:"email,omitempty" json:"email,omitempty" yaml:"email,omitempty" xml:"email,omitempty"`
+	Name  *string `form:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty" xml:"name,omitempty"`
 }
 
 // Validate validates the userPayload type instance.
 func (ut *userPayload) Validate() (err error) {
-	if ut.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "user_id"))
-	}
 	if ut.Name == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "name"))
 	}
@@ -108,25 +104,18 @@ func (ut *userPayload) Publicize() *UserPayload {
 	if ut.Name != nil {
 		pub.Name = *ut.Name
 	}
-	if ut.UserID != nil {
-		pub.UserID = *ut.UserID
-	}
 	return &pub
 }
 
 // UserPayload user type.
 type UserPayload struct {
-	City   string `form:"city" json:"city" yaml:"city" xml:"city"`
-	Email  string `form:"email" json:"email" yaml:"email" xml:"email"`
-	Name   string `form:"name" json:"name" yaml:"name" xml:"name"`
-	UserID string `form:"user_id" json:"user_id" yaml:"user_id" xml:"user_id"`
+	City  string `form:"city" json:"city" yaml:"city" xml:"city"`
+	Email string `form:"email" json:"email" yaml:"email" xml:"email"`
+	Name  string `form:"name" json:"name" yaml:"name" xml:"name"`
 }
 
 // Validate validates the UserPayload type instance.
 func (ut *UserPayload) Validate() (err error) {
-	if ut.UserID == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "user_id"))
-	}
 	if ut.Name == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "name"))
 	}

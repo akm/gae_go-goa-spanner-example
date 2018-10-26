@@ -129,8 +129,7 @@ Payload example:
 {
    "city": "Asperiores dolor ut iusto pariatur.",
    "email": "Adipisci eius temporibus adipisci quis quibusdam ut.",
-   "name": "Enim eum aliquam eaque repellendus consequuntur dignissimos.",
-   "user_id": "Delectus cum veritatis."
+   "name": "Enim eum aliquam eaque repellendus consequuntur dignissimos."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
@@ -240,8 +239,7 @@ Payload example:
 {
    "city": "Asperiores dolor ut iusto pariatur.",
    "email": "Adipisci eius temporibus adipisci quis quibusdam ut.",
-   "name": "Enim eum aliquam eaque repellendus consequuntur dignissimos.",
-   "user_id": "Delectus cum veritatis."
+   "name": "Enim eum aliquam eaque repellendus consequuntur dignissimos."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp10.Run(c, args) },
 	}
